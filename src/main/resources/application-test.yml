@@ -1,0 +1,37 @@
+employee:
+    datasource:
+        username: root
+        password: 12345
+        url: jdbc:mysql://localhost:3306/employee-managment
+        driver: com.mysql.cj.jdbc.Driver
+    hibernate:
+        database-platform: org.hibernate.dialect.MySQL8Dialect
+        show-sql: true
+        format_sql: true
+        ddl-auto: update
+
+server:
+    port: 8080
+
+logging:
+    level:
+        org:
+            hibernate:
+                type:
+                    descriptor:
+                        sql: trace
+spring:
+    jpa:
+        open-in-view: false
+
+##jwt
+#app:
+#    jwt-secret: JWTSecretKey
+#    jwt-expiration-milliseconds: 604800000
+
+
+##something
+#my:
+#    message:
+#        body: "Please confirm your registration url"
+#        subject: "Registration Confirm Link"

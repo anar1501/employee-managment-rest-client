@@ -24,7 +24,8 @@ public class User implements Serializable {
     private String email;
     private String activationCode;
     private Date expiredDate;
-    private String forgetPasswordConfirmationCode;
+    @Column(length = 6)
+    private String sixDigitCode;
     private Date forgetPasswordExpiredDate;
 
     @ToString.Exclude

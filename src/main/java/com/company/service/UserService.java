@@ -3,6 +3,7 @@ package com.company.service;
 import com.company.data.dto.request.ChangePasswordRequestDto;
 import com.company.data.dto.request.LoginRequestDto;
 import com.company.data.dto.request.RegisterRequestDto;
+import com.company.data.dto.request.ResetPasswordRequestDto;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
@@ -16,9 +17,5 @@ public interface UserService {
 
     void forgetPassword(String email);
 
-    void checkForgetPasswordActivationCode(String forgetPasswordActivationCode);
-
-    void updatePassword(ChangePasswordRequestDto requestDto);
-
-    void foo();
+    void resetPassword(ResetPasswordRequestDto requestDto);
 }

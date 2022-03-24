@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 public class GeneralUtils {
 
@@ -21,5 +22,9 @@ public class GeneralUtils {
         cal.setTime(date);
         cal.add(Calendar.MINUTE, 5);
         return cal.getTime();
+    }
+
+    public static String getRandomNumberString() {
+        return String.format("%06d", new Random().nextInt(999999));
     }
 }

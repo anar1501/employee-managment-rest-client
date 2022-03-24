@@ -1,10 +1,8 @@
 package com.company.controller;
 
-import com.company.data.dto.request.ChangePasswordRequestDto;
 import com.company.data.dto.request.LoginRequestDto;
 import com.company.data.dto.request.RegisterRequestDto;
-import com.company.data.entity.User;
-import com.company.enums.MessageCase;
+import com.company.data.dto.request.ResetPasswordRequestDto;
 import com.company.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,16 +47,9 @@ public class AuthController {
         return ResponseEntity.ok(PASSWORD_CONFIRMATION_LINK.getMessage());
     }
 
-    //change-password
-    @GetMapping(value = "check-code")
-    public void checkForgetPasswordActivationCode(@RequestParam(value = "activationcode") String activationCode) {
-        userService.checkForgetPasswordActivationCode(activationCode);
-    }
-
-    @PostMapping(value = "update-password")
-    public ResponseEntity<String> updatePassword(@RequestBody ChangePasswordRequestDto requestDto) {
-        userService.updatePassword(requestDto);
+    @PutMapping(value = "reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequestDto requestDto) {
+        userService.resetPassword(requestDto);
         return ResponseEntity.ok(PASSWORD_SUCCESSFULLY_CHANGED.getMessage());
     }
-
 }

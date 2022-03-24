@@ -5,6 +5,7 @@ import com.company.controller.AuthController;
 import com.company.data.dto.request.ChangePasswordRequestDto;
 import com.company.data.dto.request.LoginRequestDto;
 import com.company.data.dto.request.RegisterRequestDto;
+import com.company.data.dto.request.ResetPasswordRequestDto;
 import com.company.data.entity.User;
 import com.company.data.repository.UserRepository;
 import com.company.data.repository.UserStatusRepository;
@@ -27,6 +28,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.Message;
 import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.UUID;
@@ -125,33 +127,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public void forgetPassword(String email) {
         User user = userRepository.findByEmail(email).orElseThrow(() -> new EmailIsInCorrectException(MessageCase.EMAIL_IS_INCORRECT.getMessage()));
-        user.setForgetPasswordConfirmationCode(passwordEncoder.encode(UUID.randomUUID().toString()));
+        user.setSixDigitCode(GeneralUtils.getRandomNumberString());
         user.setForgetPasswordExpiredDate(GeneralUtils.prepareForgetPasswordExpirationDate());
         User saveUser = userRepository.save(user);
-        String confirmLink = "http://localhost:8080/api/v1/auth/check-code?activationcode=" + saveUser.getForgetPasswordConfirmationCode();
-        messageUtils.sendAsync(saveUser.getEmail(), forgetMessageSubject, forgetMessageBody + confirmLink);
+        messageUtils.sendAsync(saveUser.getEmail(), forgetMessageSubject, forgetMessageBody + saveUser.getSixDigitCode());
     }
 
     @Override
-    public void checkForgetPasswordActivationCode(String forgetPasswordActivationCode) {
-        User user = userRepository.findByForgetPasswordConfirmationCode(forgetPasswordActivationCode);
-        Date forgetPasswordExpiredDate = user.getForgetPasswordExpiredDate();
-        if (forgetPasswordExpiredDate.before(currentDate)) {
+    public void resetPassword(ResetPasswordRequestDto requestDto) {
+        //Todo:codun duzgun olub olmadigini yoxlamaliyam
+        User user = userRepository.findBySixDigitCode(requestDto.getSixDigitCode()).orElseThrow(()->new SixDigitCodeInCorrectException(SIX_DIGIT_CODE.getMessage()));
+        Date expiredDate = user.getForgetPasswordExpiredDate();
+        if (expiredDate.before(currentDate)) {
             throw new ExpirationCodeIsExpiredException(MessageCase.EXPIRATION_TIME_IS_EXPIRED.getMessage());
         }
-//        updatePassword(requestDto);
-    }
-
-    @Override
-    public void updatePassword(ChangePasswordRequestDto requestDto) {
-        User user = new User();
         user.setPassword(passwordEncoder.encode(requestDto.getNewPassword()));
         userRepository.save(user);
-    }
-
-    @Override
-    public void foo() {
-
     }
 
 }

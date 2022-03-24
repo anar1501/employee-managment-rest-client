@@ -15,8 +15,9 @@ public enum MessageCase {
     USER_ALREADY_CONFIRMED("Your Confirmation code already confirmed!!"),
     RESEND_EMAIL_SUCCESSFULLY_SENT("Your Confirmation link successfully sended your email"),
     EMAIL_IS_INCORRECT("Email is incorrect!"),
-    PASSWORD_CONFIRMATION_LINK("Your forget password confirmation link successfully sent"),
-    PASSWORD_SUCCESSFULLY_CHANGED("Your new password successfully changed");
+    PASSWORD_CONFIRMATION_LINK("Your forget password code successfully sent your email"),
+    PASSWORD_SUCCESSFULLY_CHANGED("Your new password successfully changed"),
+    SIX_DIGIT_CODE("6 digit code is wrong");
 
     private String message;
 

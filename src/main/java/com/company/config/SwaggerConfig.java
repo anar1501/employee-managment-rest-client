@@ -31,7 +31,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
 
         return new ApiInfoBuilder().title("Employee Managment API")
-                .description("Employee Managment-Blog-Rest Api")
+                .description("Employee Managment-Rest Api")
                 .contact(new Contact("xxxx", "xxxx", "xxxx"))
                 .version("1.0.0")
                 .build();

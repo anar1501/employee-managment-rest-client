@@ -30,8 +30,10 @@ spring:
 #    jwt-expiration-milliseconds: 604800000
 
 
-##something
-#my:
-#    message:
-#        body: "Please confirm your registration url"
-#        subject: "Registration Confirm Link"
+#something
+my:
+    message:
+        body: "Please confirm your registration url: "
+        subject: "Registration Confirm Link"
+        forget-body: "Please confirm your forget-password url: "
+        forget-subject: "Forget Password Confirm Link"

@@ -13,7 +13,7 @@ public enum MessageCase {
     EXPIRATION_TIME_IS_EXPIRED("Your Confirmed link of Expiration Time is Expired!!"),
     REGISTRATION_SUCCESSFULLY_CONFIRMED("Your Registration successfully Confirmed"),
     USER_ALREADY_CONFIRMED("Your Confirmation code already confirmed!!"),
-    RESEND_EMAIL_SUCCESSFULLY_SENT("Your Confirmation link successfully sended your email"),
+    RESEND_EMAIL_SUCCESSFULLY_SENT("Your Confirmation code successfully sent your email"),
     EMAIL_IS_INCORRECT("Email is incorrect!"),
     PASSWORD_CONFIRMATION_LINK("Your forget password code successfully sent your email"),
     PASSWORD_SUCCESSFULLY_CHANGED("Your new password successfully changed"),

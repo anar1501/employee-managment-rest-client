@@ -9,12 +9,14 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@SuppressWarnings("ALL")
 @Data
 @Entity
 public class Employee implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long employeeId;
     private String name;
     private String surname;
     private int age;

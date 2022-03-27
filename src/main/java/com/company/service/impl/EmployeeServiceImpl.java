@@ -34,7 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void updateEmployee(Long id, EmployeeRequestDto requestDto) {
-        Employee updateEmployee = ModelMapperConfiguration.map(requestDto, employeeRepository.findEmployeeById(id));
+        Employee updateEmployee = ModelMapperConfiguration.map(requestDto, employeeRepository.findEmployeeByEmployeeId(id));
         updateEmployee.setUpdateDate(new Date());
         employeeRepository.save(updateEmployee);
     }

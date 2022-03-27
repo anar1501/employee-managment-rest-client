@@ -13,12 +13,14 @@ import java.util.Set;
 
 import static com.company.enums.UserStatusEnum.UNCONFIRMED;
 
+@SuppressWarnings("ALL")
 @Data
 @Entity
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long userId;
     @Column(unique = true, nullable = false)
     private String username;
     private String password;
@@ -29,16 +31,17 @@ public class User implements Serializable {
     @Column(length = 6)
     private String sixDigitCode;
     private Date forgetPasswordExpiredDate;
+    private Date updateDate;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.EAGER)//Todo:Lazyni yigisdiracam
+    @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "user_status_id",referencedColumnName = "id")
     private UserStatus status = new UserStatus();
 
 
@@ -50,7 +53,7 @@ public class User implements Serializable {
 
     @PrePersist
     public void persist() {
-        getStatus().setId(UNCONFIRMED.getStatusId());
+        getStatus().setStatusId(UNCONFIRMED.getStatusId());
         setCreatedDate(new Date());
     }
 }

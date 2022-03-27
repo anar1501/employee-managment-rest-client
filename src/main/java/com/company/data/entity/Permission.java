@@ -8,12 +8,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+@SuppressWarnings("ALL")
 @Data
 @Entity
 public class Permission implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "id")
+    private Long permissionId;
     private String name;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

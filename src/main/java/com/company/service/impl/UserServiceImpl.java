@@ -5,12 +5,12 @@ import com.company.data.dto.request.LoginRequestDto;
 import com.company.data.dto.request.RegisterConfirmRequestDto;
 import com.company.data.dto.request.RegisterRequestDto;
 import com.company.data.dto.request.ResetPasswordRequestDto;
+import com.company.data.dto.response.UserResponseDto;
 import com.company.data.entity.User;
 import com.company.data.repository.RoleRepository;
 import com.company.data.repository.UserRepository;
 import com.company.data.repository.UserStatusRepository;
 import com.company.enums.MessageCase;
-import com.company.enums.RoleEnums;
 import com.company.enums.UserStatusEnum;
 import com.company.exception.*;
 import com.company.resource.JWTAuthResponse;
@@ -33,9 +33,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.Date;
-import java.util.UUID;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.company.enums.MessageCase.*;
 import static com.company.enums.RoleEnums.ROLE_USER;
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         if (!isTrue) {
             throw new WrongPasswordException(WRONG_PASSWORD.getMessage());
         }
-        if (user.getStatus().getId().equals(UserStatusEnum.UNCONFIRMED.getStatusId())) {
+        if (user.getStatus().getStatusId().equals(UserStatusEnum.UNCONFIRMED.getStatusId())) {
             throw new UnconfirmedException(USER_UNCONFIRMED.getMessage());
         }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsernameOrEmail(), loginRequestDto.getPassword()));
@@ -109,14 +109,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void registerConfirm(RegisterConfirmRequestDto requestDto) {
         User user = userRepository.findUserByActivationCode(requestDto.getSixDigitCode());
-        if (user.getStatus().getId().equals(UserStatusEnum.CONFIRMED.getStatusId())) {
+        if (user.getStatus().getStatusId().equals(UserStatusEnum.CONFIRMED.getStatusId())) {
             throw new AlreadyConfirmedException(MessageCase.USER_ALREADY_CONFIRMED.getMessage());
         }
         Date expiredDate = user.getExpiredDate();
         if (expiredDate.before(currentDate)) {
             throw new ExpirationCodeIsExpiredException(MessageCase.EXPIRATION_TIME_IS_EXPIRED.getMessage());
         } else {
-            user.setStatus(userStatusRepository.findUserStatusById(UserStatusEnum.CONFIRMED.getStatusId()));
+            user.setStatus(userStatusRepository.findUserStatusByStatusId(UserStatusEnum.CONFIRMED.getStatusId()));
             userRepository.save(user);
         }
     }
@@ -149,6 +149,18 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(requestDto.getNewPassword()));
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserResponseDto> showUsersExpectAdmin() {
+        List<User> userList = userRepository.findUsersByRoleRoleIdNotLike(2L);
+        UserResponseDto userResponseDto = new UserResponseDto();
+        userList.forEach((user)->{
+            userResponseDto.setRoleId(user.getRole().getRoleId());
+            userResponseDto.setStatusId(user.getStatus().getStatusId());
+        });
+        List<UserResponseDto> collect = userList.stream().map(user -> ModelMapperConfiguration.map(user, userResponseDto)).collect(Collectors.toList());
+        return collect;
     }
 
 }

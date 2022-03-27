@@ -1,8 +1,11 @@
 package com.company.controller;
 
 import com.company.data.dto.request.LoginRequestDto;
+import com.company.data.dto.request.RegisterConfirmRequestDto;
 import com.company.data.dto.request.RegisterRequestDto;
 import com.company.data.dto.request.ResetPasswordRequestDto;
+import com.company.resource.JWTAuthResponse;
+import com.company.security.jwt.JwtUtil;
 import com.company.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,11 +20,11 @@ import static com.company.enums.MessageCase.*;
 public class AuthController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping(value = "login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto) {
-        userService.login(requestDto);
-        return new ResponseEntity<>(SUCCESSFULLY_LOGIN.getMessage(), HttpStatus.OK);
+    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginRequestDto requestDto) {
+        return ResponseEntity.ok(userService.login(requestDto));
     }
 
     @PostMapping(value = "register")
@@ -29,9 +32,9 @@ public class AuthController {
         return userService.register(requestDto);
     }
 
-    @GetMapping(value = "register-confirm")
-    public ResponseEntity<String> registerConfirm(@RequestParam(value = "activationcode") String activationCode) {
-        userService.registerConfirm(activationCode);
+    @PostMapping(value = "register-confirm")
+    public ResponseEntity<String> registerConfirm(@RequestBody RegisterConfirmRequestDto requestDto) {
+        userService.registerConfirm(requestDto);
         return new ResponseEntity<>(REGISTRATION_SUCCESSFULLY_CONFIRMED.getMessage(), HttpStatus.OK);
     }
 

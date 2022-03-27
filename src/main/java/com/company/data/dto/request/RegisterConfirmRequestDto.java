@@ -5,6 +5,6 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ChangePasswordRequestDto implements Serializable {
-    private String newPassword;
+public class RegisterConfirmRequestDto implements Serializable {
+    private String sixDigitCode;
 }

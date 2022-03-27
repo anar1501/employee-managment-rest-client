@@ -1,6 +1,7 @@
 package com.company.data.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -8,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import static com.company.enums.UserStatusEnum.UNCONFIRMED;
 
@@ -28,6 +30,12 @@ public class User implements Serializable {
     private String sixDigitCode;
     private Date forgetPasswordExpiredDate;
 
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.EAGER)//Todo:Lazyni yigisdiracam
+    private Role role;
+
+    @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")

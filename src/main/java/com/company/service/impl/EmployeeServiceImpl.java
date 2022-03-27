@@ -9,8 +9,11 @@ import com.company.exception.EmployeeNotFoundException;
 import com.company.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import static com.company.enums.MessageCase.NOT_FOUND;
 
 @Service
@@ -24,13 +27,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findAll().stream().map(employee -> ModelMapperConfiguration.map(employee, EmployeeResponseDto.class)).collect(Collectors.toList());
     }
 
-//    @Override
-//    public EmployeeResponseDto getById(Long id) {
-//        return ModelMapperConfiguration.map(employeeRepository.findById(id).orElseThrow(() -> new EmployeeNotFoundException(NOT_FOUND.getMessage())), EmployeeResponseDto.class);
-//    }
-
     @Override
     public void save(EmployeeRequestDto requestDto) {
         employeeRepository.save(ModelMapperConfiguration.map(requestDto, Employee.class));
+    }
+
+    @Override
+    public void updateEmployee(Long id, EmployeeRequestDto requestDto) {
+        Employee updateEmployee = ModelMapperConfiguration.map(requestDto, employeeRepository.findEmployeeById(id));
+        updateEmployee.setUpdateDate(new Date());
+        employeeRepository.save(updateEmployee);
+    }
+
+    @Override
+    public void deleteEmployee(Long id) {
+        employeeRepository.deleteById(id);
     }
 }

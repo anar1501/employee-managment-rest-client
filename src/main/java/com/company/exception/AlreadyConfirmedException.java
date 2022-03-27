@@ -1,7 +1,7 @@
 package com.company.exception;
 
 public class AlreadyConfirmedException extends RuntimeException {
-    private String message;
+    private final String message;
 
     public AlreadyConfirmedException(String message) {
         this.message = message;

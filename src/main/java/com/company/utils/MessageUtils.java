@@ -7,17 +7,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 @Component
 @RequiredArgsConstructor
-public class MessageUtils {
+public class MessageUtils implements Serializable {
+
 
     @Value("${spring.mail.username}")
-    private String owningEmail;
+    private String owningEmail;//kim terefinden email gonderilir onu saxlayir
 
     private final JavaMailSender javaMailSender;
 
-    //Todo:Bunu arasdiracayig
-    @Async
     public void sendAsync(String toEmail, String subject, String body) {
         new Thread(() -> sendEmail(toEmail, subject, body)).start();
     }

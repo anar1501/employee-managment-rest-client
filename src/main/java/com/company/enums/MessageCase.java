@@ -17,9 +17,12 @@ public enum MessageCase {
     EMAIL_IS_INCORRECT("Email is incorrect!"),
     PASSWORD_CONFIRMATION_LINK("Your forget password code successfully sent your email"),
     PASSWORD_SUCCESSFULLY_CHANGED("Your new password successfully changed"),
-    SIX_DIGIT_CODE("6 digit code is wrong");
+    SIX_DIGIT_CODE("6 digit code is wrong"),
+    EMPLOYEE_UPDATED("Employee successfully updated!"),
+    EMPLOYEE_DELETED("Employee successfully deleted!"),
+    EMPLOYEE_DOES_NOT_EXISTS("You don't have any authorization process of resource!");
 
-    private String message;
+    private final String message;
 
     MessageCase(String message) {
         this.message = message;

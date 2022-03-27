@@ -8,11 +8,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.company.enums.MessageCase.EMPLOYEE_CREATED;
+import static com.company.enums.MessageCase.*;
 
 @RestController
 @RequestMapping("api/v1/employees")
@@ -26,15 +27,32 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAll());
     }
 
-//    @GetMapping(path = "{id}")
-//    public ResponseEntity<EmployeeResponseDto> getById(@PathVariable("id") Long id) {
-//        return ResponseEntity.ok(employeeService.getById(id));
-//    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('write')")
     @PostMapping
     public ResponseEntity<String> save(@RequestBody EmployeeRequestDto requestDto) {
         employeeService.save(requestDto);
         return new ResponseEntity<>(EMPLOYEE_CREATED.getMessage(), HttpStatus.CREATED);
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_DIRECTOR')")
+    @PutMapping(path = "{id}")
+    public ResponseEntity<String> updateEmployee(@PathVariable Long id, @RequestBody EmployeeRequestDto requestDto) {
+        employeeService.updateEmployee(id, requestDto);
+        return ResponseEntity.ok(EMPLOYEE_UPDATED.getMessage());
+    }
+
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_DIRECTOR','ROLE_MANAGER')")
+    @DeleteMapping(path = "{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.ok(EMPLOYEE_DELETED.getMessage());
+    }
+
+//    @GetMapping(value = "search-employee/{id}")
+//    public ResponseEntity<String> searchEmployee(@PathVariable("id") Long id) {
+//
+//    }
+
 }

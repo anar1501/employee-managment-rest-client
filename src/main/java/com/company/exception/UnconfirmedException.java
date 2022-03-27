@@ -1,7 +1,7 @@
 package com.company.exception;
 
 public class UnconfirmedException extends RuntimeException {
-    private String message;
+    private final String message;
 
     public UnconfirmedException(String message) {
         this.message = message;

@@ -1,7 +1,7 @@
 package com.company.exception;
 
 public class EmailIsInCorrectException extends RuntimeException{
-    private String message;
+    private final String message;
 
     public EmailIsInCorrectException(String message) {
         this.message = message;

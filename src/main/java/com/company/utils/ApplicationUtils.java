@@ -1,13 +1,14 @@
 package com.company.utils;
 
-import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
-public class GeneralUtils {
+public class ApplicationUtils implements Serializable {
 
+    //registration confirm linki ucun expiration time hazirlayir
     public static Date prepareRegistrationExpirationDate() {
         Date date = new Date();//
         Calendar cal = Calendar.getInstance();
@@ -16,6 +17,7 @@ public class GeneralUtils {
         return cal.getTime();
     }
 
+    //yenilenecek password ucun expiration time hazirlayir
     public static Date prepareForgetPasswordExpirationDate() {
         Date date = new Date();//
         Calendar cal = Calendar.getInstance();
@@ -24,6 +26,7 @@ public class GeneralUtils {
         return cal.getTime();
     }
 
+    //6 reqemli nomre generate edirki emaile gonderilecek
     public static String getRandomNumberString() {
         return String.format("%06d", new Random().nextInt(999999));
     }

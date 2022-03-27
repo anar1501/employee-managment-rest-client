@@ -24,13 +24,13 @@ spring:
     jpa:
         open-in-view: false
 
-##jwt
-#app:
-#    jwt-secret: JWTSecretKey
-#    jwt-expiration-milliseconds: 604800000
+#jwt
+app:
+    jwt-secret: JWTSecretKey
+    jwt-expiration-milliseconds: 604800000
 
 
-#something
+#emaile gonderilmekde olan body,subject
 my:
     message:
         body: "Please confirm your registration url: "

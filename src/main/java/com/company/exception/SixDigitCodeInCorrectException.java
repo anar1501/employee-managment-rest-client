@@ -1,7 +1,7 @@
 package com.company.exception;
 
 public class SixDigitCodeInCorrectException extends RuntimeException{
-    private String message;
+    private final String message;
 
     public SixDigitCodeInCorrectException(String message) {
         this.message = message;

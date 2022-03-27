@@ -26,6 +26,8 @@ public class Employee implements Serializable {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date createdDate;
 
+    private Date updateDate;
+
     @PrePersist
     public void persist() {
         setCreatedDate(new Date());

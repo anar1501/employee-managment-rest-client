@@ -159,8 +159,7 @@ public class UserServiceImpl implements UserService {
             userResponseDto.setRoleId(user.getRole().getRoleId());
             userResponseDto.setStatusId(user.getStatus().getStatusId());
         });
-        List<UserResponseDto> collect = userList.stream().map(user -> ModelMapperConfiguration.map(user, userResponseDto)).collect(Collectors.toList());
-        return collect;
+        return userList.stream().map(user -> ModelMapperConfiguration.map(user, userResponseDto)).collect(Collectors.toList());
     }
 
 }

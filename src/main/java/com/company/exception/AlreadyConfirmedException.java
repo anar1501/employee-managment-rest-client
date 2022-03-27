@@ -1,9 +1,9 @@
 package com.company.exception;
 
-public class EmployeeNotFoundException extends RuntimeException {
+public class AlreadyConfirmedException extends RuntimeException {
     private final String message;
 
-    public EmployeeNotFoundException(String message) {
+    public AlreadyConfirmedException(String message) {
         this.message = message;
     }
 

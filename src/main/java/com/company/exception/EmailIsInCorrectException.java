@@ -1,9 +1,9 @@
 package com.company.exception;
 
-public class EmployeeNotFoundException extends RuntimeException {
+public class EmailIsInCorrectException extends RuntimeException{
     private final String message;
 
-    public EmployeeNotFoundException(String message) {
+    public EmailIsInCorrectException(String message) {
         this.message = message;
     }
 

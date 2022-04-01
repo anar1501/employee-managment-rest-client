@@ -14,6 +14,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByUsername(String username);
     User findUserByActivationCode(String activationCode);
     Optional<User> findBySixDigitCode(String sixDigitCode);
-//    List<User>findUsersByUserIdNotLike(Long id);
     List<User>findUsersByRoleRoleIdNotLike(Long roleId);
+    User findUserByUserId(Long id);
 }

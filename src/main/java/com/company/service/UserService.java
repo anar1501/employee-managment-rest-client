@@ -18,4 +18,6 @@ public interface UserService {
     void forgetPassword(String email);
     void resetPassword(ResetPasswordRequestDto requestDto);
     List<UserResponseDto> showUsersExpectAdmin();
+    UserResponseDto findUserRole(Long id);
+    void updateUserRoleByUserAndRoleId(Long userId,Long roleId);
 }

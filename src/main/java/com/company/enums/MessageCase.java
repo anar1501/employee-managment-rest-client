@@ -20,7 +20,8 @@ public enum MessageCase {
     SIX_DIGIT_CODE("6 digit code is wrong"),
     EMPLOYEE_UPDATED("Employee successfully updated!"),
     EMPLOYEE_DELETED("Employee successfully deleted!"),
-    EMPLOYEE_DOES_NOT_EXISTS("You don't have any authorization process of resource!");
+    EMPLOYEE_DOES_NOT_EXISTS("You don't have any authorization process of resource!"),
+    USER_ROLE_SUCESSFULLY_UPDATED("Role sucessfully updated");
 
     private final String message;
 

@@ -1,6 +1,5 @@
 package com.company.security;
 
-import com.company.data.entity.Permission;
 import com.company.data.entity.Role;
 import com.company.data.entity.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return mapToGrantedAuthority(user.getRole().getPermissions());
+        return mapToGrantedAuthority(user.getRole());
     }
 
     @Override
@@ -54,7 +54,9 @@ public class UserPrincipal implements UserDetails {
         return true;
     }
 
-    private Set<GrantedAuthority> mapToGrantedAuthority(Set<Permission> permissions) {
-        return permissions.stream().map(permission -> new SimpleGrantedAuthority(permission.getName())).collect(Collectors.toSet());
+    private Set<GrantedAuthority> mapToGrantedAuthority(Role role) {
+        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        return grantedAuthorities;
     }
 }

@@ -19,6 +19,6 @@ public class Permission implements Serializable {
     private String name;
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions",fetch = FetchType.EAGER)
     private Set<Role> roles;
 }

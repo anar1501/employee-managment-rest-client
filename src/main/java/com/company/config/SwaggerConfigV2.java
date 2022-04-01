@@ -40,7 +40,7 @@ public class SwaggerConfigV2 {
                 .securityContexts(Collections.singletonList(securityContext()))
                 .securitySchemes(Collections.singletonList(apiKey()))
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.company"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -6,6 +6,7 @@ import com.company.data.dto.request.RegisterConfirmRequestDto;
 import com.company.data.dto.request.RegisterRequestDto;
 import com.company.data.dto.request.ResetPasswordRequestDto;
 import com.company.data.dto.response.UserResponseDto;
+import com.company.data.entity.Role;
 import com.company.data.entity.User;
 import com.company.data.repository.RoleRepository;
 import com.company.data.repository.UserRepository;
@@ -18,6 +19,7 @@ import com.company.security.jwt.JwtUtil;
 import com.company.service.UserService;
 import com.company.utils.ApplicationUtils;
 import com.company.utils.MessageUtils;
+import com.company.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,14 +33,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.company.enums.MessageCase.*;
 import static com.company.enums.RoleEnums.ROLE_USER;
+import static com.company.utils.StringUtils.parseString;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +50,6 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
 
     private final static Date currentDate = new Date();
-
 
     @Value("${my.message.subject}")
     private String messageSubject;
@@ -70,7 +72,7 @@ public class UserServiceImpl implements UserService {
     private final JwtUtil tokenProvider;
     private final RoleRepository roleRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public JWTAuthResponse login(LoginRequestDto loginRequestDto) {
         User user = userRepository.findByEmailOrUsername(loginRequestDto.getUsernameOrEmail(), loginRequestDto.getUsernameOrEmail())
@@ -121,7 +123,7 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public void resendEmail(Long id) {
         User user = userRepository.getById(id);
@@ -151,15 +153,41 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<UserResponseDto> showUsersExpectAdmin() {
         List<User> userList = userRepository.findUsersByRoleRoleIdNotLike(2L);
         UserResponseDto userResponseDto = new UserResponseDto();
-        userList.forEach((user)->{
-            userResponseDto.setRoleId(user.getRole().getRoleId());
-            userResponseDto.setStatusId(user.getStatus().getStatusId());
+        userList.forEach((user) -> {
+            userResponseDto.setRoleName(user.getRole().getName().substring(user.getRole().getName().lastIndexOf("_") + 1));
+            userResponseDto.setStatusName(user.getStatus().getName());
         });
         return userList.stream().map(user -> ModelMapperConfiguration.map(user, userResponseDto)).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserResponseDto findUserRole(Long id) {
+        UserResponseDto responseDto = new UserResponseDto();
+        try {
+            User user = userRepository.findUserByUserId(id);
+            responseDto.setRoleName(user.getRole().getName().substring(user.getRole().getName().lastIndexOf("_") + 1));
+        } catch (Exception ex) {
+            LOG.error(parseString(ex));
+        }
+        return responseDto;
+    }
+
+
+    @Override
+    public void updateUserRoleByUserAndRoleId(Long userId, Long roleId) {
+        try {
+            User user = userRepository.findUserByUserId(userId);
+            Role role = roleRepository.findRoleByRoleId(roleId);
+            user.setRole(role);
+            userRepository.save(user);
+        } catch (Exception ex) {
+            LOG.error(parseString(ex));
+        }
     }
 
 }

@@ -2,6 +2,9 @@ package com.company.utils;
 
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
@@ -24,6 +27,12 @@ public class ApplicationUtils implements Serializable {
         cal.setTime(date);
         cal.add(Calendar.MINUTE, 5);
         return cal.getTime();
+    }
+
+    public Date prepareExpirationDateUsingLocalDateTime() {
+        LocalDateTime now = LocalDateTime.now().plusMinutes(10L);
+        Instant instant = now.atZone(ZoneId.systemDefault()).toInstant();
+        return Date.from(instant);
     }
 
     //6 reqemli nomre generate edirki emaile gonderilecek

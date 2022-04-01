@@ -1,5 +1,6 @@
 package com.company.controller;
 
+import com.company.data.dto.response.PermissionResponseDto;
 import com.company.data.dto.response.RoleResponseDto;
 import com.company.data.dto.response.UserResponseDto;
 import com.company.service.RoleService;
@@ -45,6 +46,11 @@ public class AdminController {
     @GetMapping(value = "roles")
     public ResponseEntity<List<RoleResponseDto>> findAll() {
         return ResponseEntity.ok(roleService.findAll());
+    }
+
+    @GetMapping(value = "role/{id}/permissions")
+    public ResponseEntity<List<PermissionResponseDto>> findPermissionsOfRole(@PathVariable(value = "id") Long id) {
+        return ResponseEntity.ok(roleService.findPermissionsOfRole(id));
     }
 
 }

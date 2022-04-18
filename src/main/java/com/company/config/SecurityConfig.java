@@ -56,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/v1/employees/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/v1/admin/**").permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
                 .antMatchers("/v2/api-docs/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
@@ -65,18 +64,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/webjars/**").permitAll()
                 .anyRequest()
                 .authenticated();
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .clearAuthentication(true)
-//                .deleteCookies("JSESSIONID")
-//                .invalidateHttpSession(true)
-//                .permitAll()
-//                .and()
-//                .rememberMe()
-//                .userDetailsService(userDetailsService)
-//                .rememberMeCookieName("blog-cookie")
-//                .rememberMeParameter("blog-remember");
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

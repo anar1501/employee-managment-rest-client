@@ -18,12 +18,12 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-*.yml
 .idea
 *.iws
 *.iml
 *.ipr
 out/
+resources/
 !**/src/main/**/out/
 !**/src/test/**/out/
 

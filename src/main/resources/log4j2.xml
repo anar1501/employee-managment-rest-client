@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+
+    <Properties>
+        <Property name="basePath">blog-log/logs/</Property>
+    </Properties>
+
+    <Appenders>
+        <RollingFile  name="fileLogger" fileName="${basePath}/blog.log"
+                      filePattern="${basePath}/blog-%d{MM-yyyy-dd}.log">
+            <PatternLayout>
+                <pattern>%d{MM-yyyy-dd} [%-5level] %l - %msg%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+        </RollingFile>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>%d{MM-yyyy-dd} [%-5level] %l - %msg%n</pattern>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.company.blog" level="info" additivity="true">
+            <appender-ref ref="fileLogger" level="debug"/>
+        </Logger>
+        <Logger name="com.company.blog.BlogApplication" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+        </Logger>
+        <Root level="info" additivity="false">
+            <appender-ref ref="console"/>
+        </Root>
+    </Loggers>
+</Configuration>

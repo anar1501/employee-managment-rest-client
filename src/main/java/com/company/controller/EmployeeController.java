@@ -27,7 +27,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.getAll());
     }
 
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    //    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PreAuthorize("hasAuthority('write')")
     @PostMapping
     public ResponseEntity<String> save(@RequestBody EmployeeRequestDto requestDto) {
